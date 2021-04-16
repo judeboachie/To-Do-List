@@ -1,0 +1,45 @@
+/*Stylesheet for the To-Do List*/
+
+            h3{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
+
+           button{
+                margin: 5px;
+                width: 10%;
+                border-radius: 10px;
+                word-wrap: break-word;
+            }
+            
+            body{
+                background-image: linear-gradient(to bottom right, black 5%, white 5%, darkblue 5%, blue 6%,white 6%,white 6.5%,red 6.5%,red 7.5%, white 7.5%, white 8%, blue 8%,blue 9%, white 9%, beige 91%, blue 91%, blue 92%, white 92%, white 92.5%, red 92.5%, red 93.5%, white 93.5%, white 94%, blue 94%, darkblue 95%, black 95%);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                background-attachment: fixed;
+            }
+
+            /*a div holding the input box and button elements*/
+            .container{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            input{
+                width: 35%;
+            }
+
+            #uiList{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin-left: 180px;
+                margin-right: 80px;
+                color: darkblue;
+                word-wrap: break-word;
+                
+            }        
+    
