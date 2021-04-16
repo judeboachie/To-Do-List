@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <title>To-Do List</title>
+    <style>
+            h3{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
+
+           button{
+                margin: 5px;
+                width: 10%;
+                border-radius: 10px;
+            }
+            
+            body{
+                background-image: linear-gradient(to bottom right, black 5%, white 5%, darkblue 5%, blue 6%,white 6%,white 6.5%,red 6.5%,red 7.5%, white 7.5%, white 8%, blue 8%,blue 9%, white 9%, beige 91%, blue 91%, blue 92%, white 92%, white 92.5%, red 92.5%, red 93.5%, white 93.5%, white 94%, blue 94%, darkblue 95%, black 95%);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                background-attachment: fixed;
+            }
+
+            .container{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #uiList{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin-left: 100px;
+                margin-right: 50px;
+                color: darkblue;
+                word-wrap: break-word;
+                
+            }
+        
+    </style>
+  </head>
+  <body onload="loadUI()">
+      <h3>To-Do List</h3>
+      
+    <div class="container">
+        <input id="inputField" type="text" value="" placeholder="What needs to be done?">
+        <button id="button" onclick="addTask()">Submit</button><br><br>
+    </div>
+    <ul id="uiList"></ul>
+ 
+  </body>
+  <script>
+      const input = document.getElementById("inputField");
+      const button = document.getElementById("button");
+
+      let uiList = document.getElementById("uiList");
+      let dataList = [];
+      
+      // Add a task to the dataList
+      function addTask(){
+        const task = input.value;
+          dataList.push({name: task, isCompleted: false});
+          updateStorage();
+          refreshUI();
+      }
+      
+      function refreshUI(){
+          // Reset the UI
+          uiList.innerHTML = "";
+          dataList.forEach((task, index) => {
+              drawTask(task, index);
+          });
+      }
+      
+
+
+
+
+      function loadUI(){
+          JSON.parse(localStorage.getItem("dataList")).forEach((task, index) => {
+              drawTask(task, index);
+            });
+          };
+
+      
+      
+
+
+      function drawTask(task, index) {
+          let taskBullet = document.createElement("li");
+          taskBullet.innerHTML = task.name;
+          if (task.isCompleted) {
+              taskBullet.style.textDecoration = "line-through";
+          } 
+          
+          drawActionButton(taskBullet, task, index);
+          drawDeleteButton(taskBullet, index);
+          uiList.appendChild(taskBullet);
+      }
+
+
+      
+    
+    function drawActionButton(taskBullet, task, index) {
+        let actionButton = document.createElement("button");
+          if (task.isCompleted) {
+              actionButton.innerHTML = "Undo";
+              actionButton.onclick = () => {
+                  undoTask(index);
+              }
+          } else {
+              actionButton.innerHTML = "Complete Task";
+              actionButton.onclick = () => {
+                  completeTask(index);
+              }
+          }
+          taskBullet.appendChild(actionButton);
+    }
+
+    function drawDeleteButton(taskBullet, index) {
+          let deleteButton = document.createElement("button");
+          deleteButton.innerHTML = "Delete";
+          deleteButton.onclick = () => {
+              deleteTask(index)
+          }
+          taskBullet.appendChild(deleteButton);
+    }
+
+    // Sets a task to be completed
+    function completeTask(index) {
+          dataList[index].isCompleted = true;
+          updateStorage();
+          refreshUI();
+      }
+      
+      // Sets a task to not completed
+      function undoTask(index) {
+          dataList[index].isCompleted = false;
+          updateStorage();
+          refreshUI();
+      }
+      
+      // Deletes task
+      function deleteTask(index) {
+          dataList.splice(index, 1);
+          updateStorage();
+          refreshUI();
+      }
+            
+      // Adds/edits/removes tasks from local storage
+      function updateStorage(){
+        localStorage.setItem("dataList", JSON.stringify(dataList));
+      }  
+
+     
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+</html>
